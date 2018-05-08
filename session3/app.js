@@ -6,20 +6,28 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 });
 
-app.get('/:webclass', function (req, res) {
-    request('https://btvn-web12.herokuapp.com/api/' + req.params.webclass, function (error, response, body) {
-        let html = '';
-        let data = JSON.parse(body);
+app.get('/favicon.ico', (req, res) => res.status(204));
 
-        if (data) {
-            for (name of data.data) {
-                html += `<li>${name}</li>`;
+app.get('/:webclass', function (req, res) {
+    let url = 'https://btvn-web12.herokuapp.com/api/' + req.params.webclass;
+    getDataByUrl(url, (data) => {
+        res.send(data.data.map(item => `<li>${item}</li>`).join(''));
+    });
+
+});
+
+function getDataByUrl(url, onGetDataDone) {
+    request(url, function (error, response, body) {
+        if (body) {
+            try {
+                let data = JSON.parse(body);
+                onGetDataDone(data);
+            } catch (e) {
+                console.log(e);
             }
         }
-
-        res.send(html);
     });
-});
+}
 
 app.listen(9999, function (err) {
     if (err) console.log(err);
