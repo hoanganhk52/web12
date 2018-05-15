@@ -1,0 +1,9 @@
+<h1>List</h1>
+
+<ul>
+    {{#if data}}
+        {{#each data}}
+            <li>{{@key}} {{this}}</li>
+        {{/each}}
+    {{/if}}
+</ul>
