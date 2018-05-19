@@ -1,0 +1,15 @@
+<h1>Example App: Home</h1>
+
+{{question.content}}
+
+<form method="POST" action="/question?_method=PUT">
+    <input type="hidden" name="questionID" value="{{question.id}}"></input>
+    <input type="hidden" name="vote" value="yes"></input>
+    <button type="submit">Yes</button>
+</form>
+
+<form method="POST" action="/question?_method=PUT">
+    <input type="hidden" name="questionID" value="{{question.id}}"></input>
+    <input type="hidden" name="vote" value="no"></input>
+    <button type="submit">No</button>
+</form>
